@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>भारता: An AR Odyssey</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400&family=Tiro+Devanagari+Sanskrit&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles inspired by the user's image and request */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a0f0f;
+            background-image: radial-gradient(ellipse at center, #4a2a2a, #1a0f0f);
+            color: #D4AF37;
+            overflow: hidden; /* Prevents scrollbars */
+        }
+
+        .main-title {
+            font-family: 'Cinzel', serif;
+            letter-spacing: 0.1em;
+            text-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+        }
+
+        .experience-btn {
+            border-color: rgba(212, 175, 55, 0.6);
+            color: #D4AF37;
+            transition: all 0.3s ease;
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+        }
+
+        .experience-btn:hover {
+            background-color: rgba(212, 175, 55, 0.1);
+            border-color: #D4AF37;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+        }
+        
+        /* Fading Sanskrit Shlokas in the background */
+        .sloka-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .sloka {
+            position: absolute;
+            font-family: 'Cinzel', serif;
+            font-size: 2vw;
+            color: rgba(212, 175, 55, 0.15); /* Golden but very faint */
+            opacity: 0;
+            animation: fadeInOut 25s infinite;
+            user-select: none; /* Make text non-selectable */
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.1);
+        }
+
+        /* Staggered animation delays for a more organic feel */
+        .sloka:nth-child(1) { top: 10%; left: 15%; animation-delay: 0s; }
+        .sloka:nth-child(2) { top: 20%; left: 70%; animation-delay: 5s; font-size: 2.5vw;}
+        .sloka:nth-child(3) { top: 50%; left: 40%; animation-delay: 10s; }
+        .sloka:nth-child(4) { top: 80%; left: 80%; animation-delay: 15s; font-size: 1.8vw;}
+        .sloka:nth-child(5) { top: 75%; left: 10%; animation-delay: 20s; }
+        .sloka:nth-child(6) { top: 40%; left: 5%; animation-delay: 8s; font-size: 2.2vw; }
+        .sloka:nth-child(7) { top: 60%; left: 90%; animation-delay: 3s; }
+
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0; transform: translateY(10px); }
+            50% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Decorative corner borders */
+        .corner-border {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border-style: solid;
+            border-color: rgba(212, 175, 55, 0.5);
+        }
+        .top-left { top: -20px; left: -20px; border-width: 2px 0 0 2px; }
+        .top-right { top: -20px; right: -20px; border-width: 2px 2px 0 0; }
+        .bottom-left { bottom: -20px; left: -20px; border-width: 0 0 2px 2px; }
+        .bottom-right { bottom: -20px; right: -20px; border-width: 0 2px 2px 0; }
+
+        /* About Button */
+        .about-btn {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            z-index: 20;
+            background: rgba(0,0,0,0.2);
+            backdrop-filter: blur(5px);
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content {
+            position: relative;
+            background-color: #1a0f0f;
+            background-image: radial-gradient(ellipse at center, #3a1a1a, #1a0f0f);
+            padding: 2.5rem;
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 0.5rem;
+            max-width: 90%;
+            width: 600px;
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 2rem;
+            line-height: 1;
+            color: rgba(212, 175, 55, 0.7);
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .modal-close-btn:hover {
+            color: #D4AF37;
+        }
+        
+        /* Neon Glow Map Styling */
+        .india-map-container svg {
+            width: 200px;
+            height: auto;
+            overflow: visible; /* Important for glow to not be clipped */
+        }
+
+        .india-map-path {
+            stroke: #ffd700;
+            stroke-width: 4;
+            fill: transparent;
+            animation: neon-glow-map 2.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes neon-glow-map {
+            from {
+                filter: drop-shadow(0 0 5px #D4AF37) drop-shadow(0 0 10px #D4AF37) drop-shadow(0 0 15px #b8860b);
+            }
+            to {
+                filter: drop-shadow(0 0 10px #DAA520) drop-shadow(0 0 20px #DAA520) drop-shadow(0 0 30px #b8860b);
+            }
+        }
+
+
+        .sanskrit-font {
+            font-family: 'Tiro Devanagari Sanskrit', serif;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+
+    <!-- About Button -->
+    <button id="about-btn" class="about-btn experience-btn uppercase font-semibold tracking-widest border-2 py-2 px-6 rounded-lg text-xs md:text-sm">
+        About
+    </button>
+
+    <!-- Background Shlokas Container -->
+    <div class="sloka-background">
+        <span class="sloka">ॐ सर्वे भवन्तु सुखिनः</span>
+        <span class="sloka">सत्यमेव जयते</span>
+        <span class="sloka">अहिंसा परमो धर्मः</span>
+        <span class="sloka">वसुधैव कुटुम्बकम्</span>
+        <span class="sloka">यतो धर्मस्ततो जयः</span>
+        <span class="sloka">ज्ञानं परमं बलम्</span>
+        <span class="sloka">योगः कर्मसु कौशलम्</span>
+    </div>
+
+    <!-- Main Content -->
+    <main class="relative z-10 text-center p-10 md:p-16 flex flex-col items-center">
+        <!-- Decorative Borders -->
+        <div class="corner-border top-left rounded-tl-lg"></div>
+        <div class="corner-border top-right rounded-tr-lg"></div>
+        <div class="corner-border bottom-left rounded-bl-lg"></div>
+        <div class="corner-border bottom-right rounded-br-lg"></div>
+
+        <h1 class="main-title text-4xl sm:text-5xl md:text-7xl font-bold mb-2">
+            भारत
+        </h1>
+        <h2 class="main-title text-xl sm:text-2xl md:text-3xl mb-8">
+            An AR Odyssey
+        </h2>
+        
+        <p class="max-w-xl text-sm md:text-base text-gray-400 mb-12 font-light tracking-wide">
+            Journey through the heart of Indian heritage. Witness ancient stories, vibrant culture, and timeless traditions come to life in an immersive augmented reality experience.
+        </p>
+
+        <a href="Cities.html" class="experience-btn uppercase font-semibold tracking-widest border-2 py-3 px-8 rounded-lg text-sm md:text-base">
+            Enter The Experience
+        </a>
+    </main>
+
+    <!-- About Modal -->
+    <div id="about-modal" class="modal-overlay">
+        <div class="modal-content text-center flex flex-col items-center">
+            <span id="close-modal-btn" class="modal-close-btn">&times;</span>
+            
+            
+
+            <h3 class="sanskrit-font main-title text-3xl mb-4">Our Vision</h3>
+            <p class="sanskrit-font text-gray-300 text-lg font-light tracking-wide max-w-md">
+                Our goal is to chart the sacred geography of भारत, creating a digital pilgrimage that connects every ancient temple and sacred site through the power of augmented reality. We aim to preserve our timeless heritage and share the stories etched in stone and spirit with the world.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript to handle modal functionality
+        const aboutBtn = document.getElementById('about-btn');
+        const aboutModal = document.getElementById('about-modal');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+
+        const openModal = () => {
+            aboutModal.classList.add('active');
+        };
+
+        const closeModal = () => {
+            aboutModal.classList.remove('active');
+        };
+
+        aboutBtn.addEventListener('click', openModal);
+        closeModalBtn.addEventListener('click', closeModal);
+
+        // Close modal if user clicks on the overlay
+        aboutModal.addEventListener('click', (event) => {
+            if (event.target === aboutModal) {
+                closeModal();
+            }
+        });
+
+        // Close modal with the 'Escape' key
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
+
