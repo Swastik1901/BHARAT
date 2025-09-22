@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - BHARAT : AN AR ODYSSEY</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://cdn.jsdelivr.net/npm/three@0.165.0/build/three.module.js",
+                "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.165.0/examples/jsm/"
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        /* Base theme styles from your Explore Cities page */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a0f0f;
+            color: #D4AF37;
+            overflow: hidden; /* Prevent scrollbars from 3D canvas */
+        }
+        
+        /* The 3D background canvas */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        /* --- NEW: Back Button Styling --- */
+        .back-button {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            z-index: 10;
+            width: 48px; /* 3rem */
+            height: 48px; /* 3rem */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: rgba(26, 15, 15, 0.6);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            color: #D4AF37;
+            backdrop-filter: blur(8px);
+            transition: all 0.3s ease;
+        }
+        .back-button:hover {
+            background-color: rgba(212, 175, 55, 0.2);
+            border-color: #D4AF37;
+            transform: scale(1.1);
+        }
+        .back-button svg {
+            width: 24px;
+            height: 24px;
+        }
+        /* --- End of New CSS --- */
+
+
+        /* The main container for the login card */
+        .main-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-image: radial-gradient(ellipse at center, #4a2a2a, #1a0f0f 70%);
+            padding: 2rem;
+        }
+
+        /* The login card with glass effect */
+        .login-card {
+            background-color: rgba(26, 15, 15, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 1rem;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        /* Form input styling */
+        .form-input {
+            background-color: rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(212, 175, 55, 0.4);
+            color: #D4AF37;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #D4AF37;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+        }
+
+        /* Themed button styling */
+        .themed-button {
+            font-family: 'Cinzel', serif;
+            letter-spacing: 0.1em;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            background-color: #D4AF37;
+            color: #1a0f0f;
+            transition: all 0.3s ease;
+        }
+        .themed-button:hover {
+            background-color: #ffdead; /* A lighter gold */
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+        }
+        
+        /* Styling for titles and links */
+        .title-font {
+            font-family: 'Cinzel', serif;
+            text-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+        }
+
+        .link-style {
+             color: #D4AF37;
+             font-weight: 500;
+             transition: color 0.3s;
+        }
+
+        .link-style:hover {
+            color: #ffdead;
+        }
+
+        /* 3D artifact container */
+        #artifact-container {
+            min-height: 300px;
+            cursor: grab;
+        }
+         #artifact-container:grabbing {
+            cursor: grabbing;
+        }
+    </style>
+</head>
+<body>
+
+    <a href="Cities.html" class="back-button" aria-label="Go back">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+        </svg>
+    </a>
+    
+    <canvas id="bg-canvas"></canvas>
+
+    <div class="main-container">
+        <div class="login-card grid grid-cols-1 md:grid-cols-2 overflow-hidden">
+            
+            <div class="p-8 md:p-12">
+
+                <div id="login-form">
+                    <h1 class="title-font text-3xl md:text-4xl font-bold mb-2">Welcome Back</h1>
+                    <p class="text-gray-400 mb-8">Sign in to your Odyssey account.</p>
+                    
+                    <form>
+                        <div class="mb-4">
+                            <label for="login-email" class="block text-sm font-medium text-gray-300 mb-2">Email</label>
+                            <input type="email" id="login-email" class="form-input w-full p-3 rounded-lg" placeholder="your.email@example.com">
+                        </div>
+                        <div class="mb-6">
+                            <label for="login-password" class="block text-sm font-medium text-gray-300 mb-2">Password</label>
+                            <input type="password" id="login-password" class="form-input w-full p-3 rounded-lg" placeholder="••••••••">
+                        </div>
+                         <div class="flex items-center justify-between mb-6 text-sm">
+                            <div></div>
+                            <a href="#" class="link-style">Forgot Password?</a>
+                        </div>
+                        <div class="flex text-sm mb-6">
+                            <p id="top-link-text" class="text-gray-400">Don't have an account? <a href="#" id="toggle-form" class="link-style">Sign Up</a></p>
+                        </div>
+                        <button type="submit" class="themed-button w-full font-bold py-3 rounded-lg text-lg">Sign In</button>
+                    </form>
+                </div>
+
+                <div id="signup-form" class="hidden">
+                    <h1 class="title-font text-3xl md:text-4xl font-bold mb-2">Create Account</h1>
+                    <p class="text-gray-400 mb-8">Embark on your Odyssey.</p>
+                    
+                    <form>
+                         <div class="mb-4">
+                            <label for="signup-name" class="block text-sm font-medium text-gray-300 mb-2">Full Name</label>
+                            <input type="text" id="signup-name" class="form-input w-full p-3 rounded-lg" placeholder="Your Name">
+                        </div>
+                        <div class="mb-4">
+                            <label for="signup-email" class="block text-sm font-medium text-gray-300 mb-2">Email</label>
+                            <input type="email" id="signup-email" class="form-input w-full p-3 rounded-lg" placeholder="your.email@example.com">
+                        </div>
+                        <div class="mb-6">
+                            <label for="signup-password" class="block text-sm font-medium text-gray-300 mb-2">Password</label>
+                            <input type="password" id="signup-password" class="form-input w-full p-3 rounded-lg" placeholder="Create a strong password">
+                        </div>
+                        <button type="submit" class="themed-button w-full font-bold py-3 rounded-lg text-lg">Create Account</button>
+                    </form>
+                </div>
+
+            </div>
+
+            <div class="hidden md:flex items-center justify-center p-8 bg-black bg-opacity-20">
+                <div id="artifact-container" class="w-full h-full"></div>
+            </div>
+
+        </div>
+    </div>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+        // --- Form Toggle Logic ---
+        const toggleLink = document.getElementById('toggle-form');
+        const topLinkText = document.getElementById('top-link-text');
+        const loginForm = document.getElementById('login-form');
+        const signupForm = document.getElementById('signup-form');
+        let isLogin = true;
+
+        toggleLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            isLogin = !isLogin;
+            loginForm.classList.toggle('hidden');
+            signupForm.classList.toggle('hidden');
+            if (isLogin) {
+                topLinkText.innerHTML = `Don't have an account? <a href="#" id="toggle-form" class="link-style">Sign Up</a>`;
+            } else {
+                topLinkText.innerHTML = `Already have an account? <a href="Login.html" id="toggle-form" class="link-style">Sign In</a>`;
+            }
+            document.getElementById('toggle-form').addEventListener('click', toggleLink.click);
+        });
+
+        // --- 3D Background Scene ---
+        const bgScene = new THREE.Scene();
+        const bgCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const bgRenderer = new THREE.WebGLRenderer({ canvas: document.querySelector('#bg-canvas'), alpha: true });
+        bgRenderer.setSize(window.innerWidth, window.innerHeight);
+        bgCamera.position.z = 5;
+
+        const starCount = 5000;
+        const positions = new Float32Array(starCount * 3);
+        for (let i = 0; i < starCount; i++) {
+            positions[i * 3 + 0] = (Math.random() - 0.5) * 100;
+            positions[i * 3 + 1] = (Math.random() - 0.5) * 100;
+            positions[i * 3 + 2] = (Math.random() - 0.5) * 100;
+        }
+        const starGeometry = new THREE.BufferGeometry();
+        starGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        const starMaterial = new THREE.PointsMaterial({ color: 0xD4AF37, size: 0.05, transparent: true, opacity: 0.7 });
+        const starField = new THREE.Points(starGeometry, starMaterial);
+        bgScene.add(starField);
+
+        function animateBackground() {
+            requestAnimationFrame(animateBackground);
+            starField.rotation.x += 0.0001;
+            starField.rotation.y += 0.0002;
+            bgRenderer.render(bgScene, bgCamera);
+        }
+        animateBackground();
+
+        // --- 3D Glowing Globe Scene ---
+        const artifactContainer = document.getElementById('artifact-container');
+        if (artifactContainer) {
+            const artifactScene = new THREE.Scene();
+            const artifactCamera = new THREE.PerspectiveCamera(75, artifactContainer.clientWidth / artifactContainer.clientHeight, 0.1, 1000);
+            const artifactRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+
+            artifactRenderer.setSize(artifactContainer.clientWidth, artifactContainer.clientHeight);
+            artifactRenderer.setPixelRatio(window.devicePixelRatio);
+            artifactContainer.appendChild(artifactRenderer.domElement);
+
+            const textureLoader = new THREE.TextureLoader();
+
+            // The Globe
+            const earthTexture = textureLoader.load('https://s3-us-west-2.amazonaws.com/s.cdpn.io/141228/earthmap1k.jpg');
+            const earthSpecTexture = textureLoader.load('https://s3-us-west-2.amazonaws.com/s.cdpn.io/141228/earthspec1k.jpg');
+            const earthBumpTexture = textureLoader.load('https://s3-us-west-2.amazonaws.com/s.cdpn.io/141228/earthbump1k.jpg');
+            
+            const globeGeometry = new THREE.SphereGeometry(1.5, 32, 32);
+            const globeMaterial = new THREE.MeshPhongMaterial({
+                map: earthTexture,
+                specularMap: earthSpecTexture,
+                bumpMap: earthBumpTexture,
+                bumpScale: 0.05,
+            });
+            const globe = new THREE.Mesh(globeGeometry, globeMaterial);
+            artifactScene.add(globe);
+
+            // Clouds
+            const cloudTexture = textureLoader.load('https://s3-us-west-2.amazonaws.com/s.cdpn.io/141228/clouds.png');
+            const cloudGeometry = new THREE.SphereGeometry(1.53, 32, 32);
+            const cloudMaterial = new THREE.MeshPhongMaterial({
+                map: cloudTexture,
+                transparent: true,
+                opacity: 0.8
+            });
+            const clouds = new THREE.Mesh(cloudGeometry, cloudMaterial);
+            artifactScene.add(clouds);
+
+            // Atmosphere Glow
+            const glowGeometry = new THREE.SphereGeometry(1.6, 32, 32);
+            const glowMaterial = new THREE.ShaderMaterial({
+                vertexShader: `
+                    varying vec3 vNormal;
+                    void main() {
+                        vNormal = normalize(normalMatrix * normal);
+                        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+                    }
+                `,
+                fragmentShader: `
+                    varying vec3 vNormal;
+                    void main() {
+                        float intensity = pow(0.6 - dot(vNormal, vec3(0.0, 0.0, 1.0)), 2.0);
+                        gl_FragColor = vec4(0.5, 0.7, 1.0, 1.0) * intensity;
+                    }
+                `,
+                side: THREE.BackSide,
+                blending: THREE.AdditiveBlending,
+                transparent: true
+            });
+            const atmosphere = new THREE.Mesh(glowGeometry, glowMaterial);
+            artifactScene.add(atmosphere);
+
+            // Lighting
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 2);
+            directionalLight.position.set(5, 3, 5);
+            artifactScene.add(directionalLight);
+            
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
+            artifactScene.add(ambientLight);
+
+            artifactCamera.position.z = 3.5;
+
+            // Controls
+            const controls = new OrbitControls(artifactCamera, artifactRenderer.domElement);
+            controls.enableZoom = false;
+            controls.enablePan = false;
+            controls.autoRotate = true;
+            controls.autoRotateSpeed = 0.4;
+
+            function animateArtifact() {
+                requestAnimationFrame(animateArtifact);
+                globe.rotation.y += 0.0005;
+                clouds.rotation.y += 0.0006;
+                controls.update();
+                artifactRenderer.render(artifactScene, artifactCamera);
+            }
+            animateArtifact();
+            
+            // Handle resize
+            window.addEventListener('resize', () => {
+                bgCamera.aspect = window.innerWidth / window.innerHeight;
+                bgCamera.updateProjectionMatrix();
+                bgRenderer.setSize(window.innerWidth, window.innerHeight);
+
+                if (artifactContainer.clientWidth > 0 && artifactContainer.clientHeight > 0) {
+                    artifactCamera.aspect = artifactContainer.clientWidth / artifactContainer.clientHeight;
+                    artifactCamera.updateProjectionMatrix();
+                    artifactRenderer.setSize(artifactContainer.clientWidth, artifactContainer.clientHeight);
+                }
+            });
+        }
+
+    </script>
+</body>
+</html>
