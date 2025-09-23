@@ -40,8 +40,8 @@ var APP_DATA = {
         {
           "yaw": -1.9238786129940113,
           "pitch": -0.005326750919842027,
-          "title": "Garden",
-          "text": "Garden me ghumega toh maa ch** dunga"
+          "title": "The Garden of Shaheed Minar",
+          "text": "The Garden of Shaheed Minar is a green public space surrounding the historic Shaheed Minar in Kolkata. It serves as a peaceful spot for relaxation and also as a venue for cultural gatherings, meetings, and public events."
         }
       ]
     },
@@ -97,8 +97,8 @@ var APP_DATA = {
         {
           "yaw": 0.10231115869639851,
           "pitch": -0.1579425663490639,
-          "title": "Shaheed minar<div><br></div>",
-          "text": "This is Shaheed Minar"
+          "title": "The Shaheed Minar pillar<div><br></div>",
+          "text": "The Shaheed Minar pillar in Kolkata is a tall, elegant structure originally built in 1828 and later dedicated to India’s martyrs. It features classical architectural design and stands as a prominent symbol of remembrance in the city."
         }
       ]
     },
@@ -148,8 +148,8 @@ var APP_DATA = {
         {
           "yaw": 0.2736802002028931,
           "pitch": -0.21974749375729274,
-          "title": "Tower",
-          "text": "This the gate to the tower"
+          "title": "The small door of Shaheed Minar",
+          "text": "The small door of Shaheed Minar provides access to the interior of the monument, allowing visitors to view its structure up close. It is a modest entrance that complements the tall, elegant pillar without altering its monumental appearance."
         }
       ]
     },
