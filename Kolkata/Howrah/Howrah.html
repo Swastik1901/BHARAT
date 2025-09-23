@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heritage Details - BHARAT : AN AR ODYSSEY</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- GSAP for animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* Base theme */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a0f0f;
+            background-image: radial-gradient(ellipse at center, #4a2a2a, #1a0f0f);
+            color: #D4AF37;
+            overflow-x: hidden;
+        }
+
+        .title-font {
+            font-family: 'Cinzel', serif;
+            letter-spacing: 0.1em;
+            text-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+        }
+
+        /* Background Shlokas */
+        .sloka-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: -2;
+            overflow: hidden;
+        }
+
+        .sloka {
+            position: absolute;
+            font-family: 'Cinzel', serif;
+            font-size: 2vw;
+            color: rgba(212, 175, 55, 0.1);
+            opacity: 0;
+            animation: fadeInOut 25s infinite;
+            user-select: none;
+        }
+        .sloka:nth-child(1) { top: 15%; left: 20%; animation-delay: 0s; }
+        .sloka:nth-child(2) { top: 25%; left: 75%; animation-delay: 5s; }
+        .sloka:nth-child(3) { top: 60%; left: 50%; animation-delay: 10s; }
+        .sloka:nth-child(4) { top: 85%; left: 80%; animation-delay: 15s; }
+        .sloka:nth-child(5) { top: 70%; left: 10%; animation-delay: 20s; }
+
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0; } 50% { opacity: 0.5; }
+        }
+
+        /* Flowing Menu Styles */
+        .menu-wrap {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        .menu {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 0.5rem;
+        }
+
+        .menu__item {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+            border-right: 1px solid rgba(212, 175, 55, 0.3);
+        }
+        .menu__item:last-child {
+             border-right: none;
+        }
+
+        .menu__item-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            position: relative;
+            cursor: pointer;
+            text-decoration: none;
+            white-space: nowrap;
+            font-weight: 600;
+            color: #D4AF37;
+            font-size: clamp(1.2rem, 3vw, 2rem);
+            padding: 1.5rem 1rem;
+            font-family: 'Cinzel', serif;
+        }
+        .menu__item-link.active {
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.8);
+        }
+
+        .marquee {
+            position: absolute;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background: #D4AF37;
+            transform: translateY(101%);
+        }
+
+        .marquee__inner-wrap {
+            height: 100%;
+            width: 100%;
+            transform: translateY(-101%);
+        }
+
+        .marquee__inner {
+            display: flex;
+            align-items: center;
+            position: relative;
+            height: 100%;
+            width: fit-content;
+            will-change: transform;
+            animation: marquee 20s linear infinite;
+        }
+
+        .marquee span {
+            color: #1a0f0f;
+            white-space: nowrap;
+            font-weight: 500;
+            font-size: clamp(1.2rem, 3vw, 2rem);
+            padding: 0 1.5vw;
+            font-family: 'Cinzel', serif;
+        }
+
+        @keyframes marquee {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
+        
+        /* About & Gallery Section Styles */
+        .content-section {
+            max-width: 900px;
+            margin: 4rem auto 0;
+            padding: 0 1rem;
+            text-align: center;
+            line-height: 1.8;
+            font-size: 1.1rem;
+            color: #d4c08b;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .gallery-item {
+            overflow: hidden;
+            border-radius: 0.5rem;
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.2);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        /* Lightbox/Modal Styles */
+        .lightbox-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(26, 15, 15, 0.9);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+
+        .lightbox-overlay.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .lightbox-content {
+            position: relative;
+            max-width: 90vw;
+            max-height: 90vh;
+        }
+
+        .lightbox-content img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 0.5rem;
+        }
+
+        .lightbox-close-btn {
+            position: absolute;
+            top: -40px;
+            right: -10px;
+            color: #D4AF37;
+            font-size: 3rem;
+            font-weight: 200;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .lightbox-close-btn:hover {
+             transform: scale(1.1);
+        }
+
+        /* Chatbot Styles */
+        .chatbot-container{position:fixed;bottom:20px;left:20px;z-index:1010}.chat-bubble{width:60px;height:60px;background-color:#D4AF37;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 15px rgba(0,0,0,.4);transition:transform .3s ease,background-color .3s ease}.chat-bubble:hover{transform:scale(1.1);background-color:#f7d468}.chat-bubble svg{width:32px;height:32px;fill:#1a0f0f}.chat-window{width:350px;height:450px;background-color:rgba(26,15,15,.9);backdrop-filter:blur(10px);border:1px solid rgba(212,175,55,.4);border-radius:15px;position:absolute;bottom:80px;left:0;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 5px 20px rgba(0,0,0,.5);transform:scale(.5) translateY(50px);opacity:0;pointer-events:none;transform-origin:bottom left;transition:transform .4s cubic-bezier(.175,.885,.32,1.275),opacity .3s ease}.chat-window.open{transform:scale(1) translateY(0);opacity:1;pointer-events:auto}.chat-header{padding:15px;background-color:rgba(0,0,0,.3);color:#D4AF37;font-size:18px;text-align:center;border-bottom:1px solid rgba(212,175,55,.2);flex-shrink:0}.chat-body{flex-grow:1;padding:15px;overflow-y:auto;display:flex;flex-direction:column;gap:12px}.chat-body::-webkit-scrollbar{width:6px}.chat-body::-webkit-scrollbar-track{background:transparent}.chat-body::-webkit-scrollbar-thumb{background:rgba(212,175,55,.4);border-radius:3px}.chat-body::-webkit-scrollbar-thumb:hover{background:rgba(212,175,55,.6)}.chat-message{padding:10px 15px;border-radius:18px;max-width:80%;line-height:1.4;font-size:14px}.chat-message.user{background-color:#D4AF37;color:#1a0f0f;align-self:flex-end;border-bottom-right-radius:4px}.chat-message.bot{background-color:rgba(0,0,0,.3);color:#f0f0f0;border:1px solid rgba(212,175,55,.2);align-self:flex-start;border-bottom-left-radius:4px}.chat-footer{display:flex;padding:10px;border-top:1px solid rgba(212,175,55,.2);background-color:rgba(0,0,0,.2);flex-shrink:0}.chat-footer input{flex-grow:1;border:1px solid rgba(212,175,55,.4);border-radius:20px;padding:8px 15px;background-color:transparent;color:#fff;font-family:'Cinzel',serif;font-size:14px}.chat-footer input:focus{outline:none;border-color:#D4AF37}.chat-footer button{background:none;border:none;cursor:pointer;padding:0 10px}.chat-footer button svg{width:24px;height:24px;fill:#D4AF37;transition:fill .3s}.chat-footer button:hover svg{fill:#f7d468}
+
+         /* --- NEW: Back Button Styling --- */
+         .back-button {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            z-index: 10;
+            width: 48px; /* 3rem */
+            height: 48px; /* 3rem */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: rgba(26, 15, 15, 0.6);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            color: #D4AF37;
+            backdrop-filter: blur(8px);
+            transition: all 0.3s ease;
+        }
+        .back-button:hover {
+            background-color: rgba(212, 175, 55, 0.2);
+            border-color: #D4AF37;
+            transform: scale(1.1);
+        }
+        .back-button svg {
+            width: 24px;
+            height: 24px;
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-8">
+
+    <a href="../Heritage.html" class="back-button" aria-label="Go back">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+        </svg>
+    </a>
+
+    <!-- Background -->
+    <div class="sloka-background">
+        <span class="sloka">ॐ सर्वे भवन्तु सुखिनः</span>
+        <span class="sloka">सत्यमेव जयते</span>
+        <span class="sloka">अहिंसा परमो धर्मः</span>
+        <span class="sloka">वसुधैव कुटुम्बकम्</span>
+        <span class="sloka">यतो धर्मस्ततो जयः</span>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container mx-auto text-center">
+        <!-- Header Section -->
+        <h1 class="title-font text-4xl sm:text-5xl md:text-6xl font-bold mb-12 mt-8">Howrah Bridge</h1>
+        
+        <!-- Action Buttons -->
+        <div class="menu-wrap mb-16">
+            <nav class="menu">
+                <div class="menu__item">
+                    <a href="#" id="about-link" class="menu__item-link active">About</a>
+                    <div class="marquee">
+                        <div class="marquee__inner-wrap">
+                            <div class="marquee__inner">
+                                <span>About</span><span>About</span><span>About</span><span>About</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu__item">
+                    <a href="AR VIEW/index.html" class="menu__item-link">AR View</a>
+                     <div class="marquee">
+                        <div class="marquee__inner-wrap">
+                            <div class="marquee__inner">
+                               <span>AR View</span><span>AR View</span><span>AR View</span><span>AR View</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu__item">
+                    <a href="#" id="gallery-link" class="menu__item-link">Gallery</a>
+                     <div class="marquee">
+                        <div class="marquee__inner-wrap">
+                            <div class="marquee__inner">
+                                <span>Gallery</span><span>Gallery</span><span>Gallery</span><span>Gallery</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </main>
+
+    <!-- ABOUT SECTION -->
+    <section id="about-section" class="content-section">
+        <p>
+            An iconic landmark in Kolkata, the Howrah Bridge is a huge steel bridge over the Hooghly River. It is considered to be one of the longest cantilever bridges in the world. Also known as Rabindra Setu, it connects Howrah and Kolkata. It carries 100,000 vehicles and countless pedestrians daily.
+        </p>
+        <p class="mt-4">
+            The traffic between commercial Kolkata and industrial Howrah having enormously increased during the first quarter of the 20th Century, the old b ridge was quite insufficient and it was decided to build a new one. The shifting mode of the river Hooghly was dangerous for either a cantilever or a suspension Bridge and hence a Bridge was designed as a sort of combination of the both. It was however known as and a reputed cantilever Bridge and is the third largest bridge of its kind in the World having a over-all length if 2150 feet with a single span of 1500 feet. The new Howrah Bridge was designed by M/s. Rendell, Palmer and Tritton, consulting Engineers. It took 8 years to complete the bridge and 26,000 tons of steel including 18,200 tons of high tensile quality were used. The total cost of construction of the land and all ancillary works, amounted Rs. 3.33 crores.
+            It is interesting to note that the Bridge expands about 4.8 inches during the heat of the day and contracts equal length in the cool of the night. Another peculiarity of the Bridge is that the Bridge bends over slightly in strong winds. The framework has also been built to withstand earth-quakes, as Calcutta lies in a Seismic zone.
+        </p>
+        <p class="mt-4">
+            The height of the Bridge at the supporting towers on the both ends in 300 feet. Each tower has a constant width of 11 feet and a tapering from 8’6’’ to 4’6’’ at the top. The entire structure is laid on main piers of re-enforced concrete monoliths with steel ceiling edges. Each pier is 181’6” long by 81’6” wide and is amongst the largest in the world. The monoliths and grinders on Calcutta side are 103 feet deep and on the Howrah side it is 88 feet deep. These monoliths are the heaviest in the world.
+        </p>
+    </section>
+
+    <!-- GALLERY SECTION (Initially Hidden) -->
+    <section id="gallery-section" class="content-section hidden">
+        <div class="gallery-grid">
+            <div class="gallery-item"><img src="Howrah.jpeg" alt="The Victoria Memorial building from a distance"></div>
+            <div class="gallery-item"><img src="Howrah2.jpeg" alt="Close-up of the Angel of Victory statue on the dome"></div>
+            <div class="gallery-item"><img src="Howrah3.jpg" alt="Lush gardens and pathways of the memorial grounds"></div>
+            <div class="gallery-item"><img src="Howrah4.jpeg" alt="The Victoria Memorial illuminated at night"></div>
+            <div class="gallery-item"><img src="Howrah5.jpeg" alt="Reflection of the memorial in the water"></div>
+            <!-- <div class="gallery-item"><img src="https://images.unsplash.com/photo-1605553147139-6799343aa2e6?q=80&w=800&auto=format&fit=crop" alt="Intricate marble sculptures on the exterior of the building"></div>
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1623668388279-5431da8a3a99?q=80&w=800&auto=format&fit=crop" alt="Detailed view of the central dome architecture"></div>
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1623668388195-0e427fad9120?q=80&w=800&auto=format&fit=crop" alt="Interior view of the Royal Gallery inside the memorial"></div>
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1615598822597-15a0225333ac?q=80&w=800&auto=format&fit=crop" alt="A horse-drawn carriage in front of the Victoria Memorial"></div> -->
+        </div>
+    </section>
+
+    <!-- Lightbox/Modal for Fullscreen Image -->
+    <div id="lightbox-overlay" class="lightbox-overlay">
+        <span id="lightbox-close-btn" class="lightbox-close-btn">&times;</span>
+        <div class="lightbox-content">
+            <img id="lightbox-image" src="" alt="Full-screen view of gallery image">
+        </div>
+    </div>
+
+    <!-- CHATBOT HTML -->
+    <div class="chatbot-container">
+        <div id="chat-window" class="chat-window">
+            <div class="chat-header">Virtual Guide</div>
+            <div id="chat-body" class="chat-body">
+                <div class="chat-message bot">Welcome! How can I help you explore this place today?</div>
+            </div>
+            <div class="chat-footer">
+                <input type="text" id="chat-input" placeholder="Ask a question...">
+                <button id="chat-send-btn">
+                    <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+                </button>
+            </div>
+        </div>
+        <div id="chat-bubble" class="chat-bubble">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Section Toggling Logic ---
+            const aboutLink = document.getElementById('about-link');
+            const galleryLink = document.getElementById('gallery-link');
+            const aboutSection = document.getElementById('about-section');
+            const gallerySection = document.getElementById('gallery-section');
+
+            aboutLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                aboutSection.classList.remove('hidden');
+                gallerySection.classList.add('hidden');
+                aboutLink.classList.add('active');
+                galleryLink.classList.remove('active');
+            });
+
+            galleryLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                gallerySection.classList.remove('hidden');
+                aboutSection.classList.add('hidden');
+                galleryLink.classList.add('active');
+                aboutLink.classList.remove('active');
+            });
+            
+            // --- Lightbox Logic ---
+            const galleryItems = document.querySelectorAll('.gallery-item');
+            const lightboxOverlay = document.getElementById('lightbox-overlay');
+            const lightboxImage = document.getElementById('lightbox-image');
+            const lightboxCloseBtn = document.getElementById('lightbox-close-btn');
+
+            galleryItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const imgSrc = item.querySelector('img').src;
+                    lightboxImage.src = imgSrc;
+                    lightboxOverlay.classList.add('show');
+                });
+            });
+
+            const closeLightbox = () => {
+                lightboxOverlay.classList.remove('show');
+            }
+
+            lightboxCloseBtn.addEventListener('click', closeLightbox);
+            lightboxOverlay.addEventListener('click', (e) => {
+                if (e.target === lightboxOverlay) {
+                    closeLightbox();
+                }
+            });
+
+            // --- Flowing Menu Animation Logic ---
+            const menuItems = document.querySelectorAll('.menu__item');
+            menuItems.forEach(item => {
+                const link = item.querySelector('.menu__item-link');
+                const marquee = item.querySelector('.marquee');
+                const marqueeInner = item.querySelector('.marquee__inner-wrap');
+                const animationDefaults = { duration: 0.6, ease: 'expo' };
+                link.addEventListener('mouseenter', ev => {
+                    const rect = item.getBoundingClientRect();
+                    const distMetric = (x, y, x2, y2) => Math.hypot(x-x2, y-y2);
+                    const edge = distMetric(ev.clientX - rect.left, ev.clientY - rect.top, rect.width / 2, 0) < distMetric(ev.clientX - rect.left, ev.clientY - rect.top, rect.width/2, rect.height) ? 'top' : 'bottom';
+                    gsap.timeline({ defaults: animationDefaults })
+                        .set(marquee, { y: edge === 'top' ? '-101%' : '101%' })
+                        .set(marqueeInner, { y: edge === 'top' ? '101%' : '-101%' })
+                        .to([marquee, marqueeInner], { y: '0%' });
+                });
+                link.addEventListener('mouseleave', ev => {
+                    const rect = item.getBoundingClientRect();
+                    const distMetric = (x, y, x2, y2) => Math.hypot(x-x2, y-y2);
+                    const edge = distMetric(ev.clientX - rect.left, ev.clientY - rect.top, rect.width / 2, 0) < distMetric(ev.clientX - rect.left, ev.clientY - rect.top, rect.width/2, rect.height) ? 'top' : 'bottom';
+                    gsap.timeline({ defaults: animationDefaults })
+                        .to(marquee, { y: edge === 'top' ? '-101%' : '101%' })
+                        .to(marqueeInner, { y: edge === 'top' ? '101%' : '-101%' });
+                });
+            });
+
+            // --- CHATBOT LOGIC ---
+            const chatBubble = document.getElementById("chat-bubble"),
+                chatWindow = document.getElementById("chat-window"),
+                chatBody = document.getElementById("chat-body"),
+                chatInput = document.getElementById("chat-input"),
+                chatSendBtn = document.getElementById("chat-send-btn");
+            function addMessage(e, t) {
+                const n = document.createElement("div");
+                n.classList.add("chat-message", t), n.textContent = e, chatBody.appendChild(n), chatBody.scrollTop = chatBody.scrollHeight
+            }
+            function getBotResponse(e) {
+                const t = e.toLowerCase().trim();
+                return t.includes("hello") || t.includes("hi") ? "Hello there! Welcome to this virtual tour. Ask me anything about this location." : t.includes("what is this") || t.includes("about") ? "This is a virtual odyssey through Bharat, showcasing its rich heritage and culture in an immersive way. This specific location is a demonstration area." : t.includes("feature") || t.includes("do") ? "You can look around in 360 degrees, click on hotspots to navigate, and use the menu to explore different locations. You can also ask me for information!" : t.includes("bye") || t.includes("thanks") ? "You're welcome! Enjoy the rest of your tour." : "I'm sorry, I'm still learning. I can currently provide information about this tour's features and purpose. Try asking 'What is this place?'"
+            }
+            function sendMessage() {
+                const e = chatInput.value;
+                "" !== e.trim() && (addMessage(e, "user"), chatInput.value = "", setTimeout(() => {
+                    const e = getBotResponse(e);
+                    addMessage(e, "bot")
+                }, 500))
+            }
+            chatBubble.addEventListener("click", () => { chatWindow.classList.toggle("open") }), chatSendBtn.addEventListener("click", sendMessage), chatInput.addEventListener("keypress", function(e) { "Enter" === e.key && sendMessage() });
+        });
+    </script>
+</body>
+</html>
+
+
+
