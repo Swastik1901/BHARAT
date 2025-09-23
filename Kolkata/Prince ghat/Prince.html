@@ -359,25 +359,6 @@
         </div>
     </div>
 
-    <!-- CHATBOT HTML -->
-    <div class="chatbot-container">
-        <div id="chat-window" class="chat-window">
-            <div class="chat-header">Virtual Guide</div>
-            <div id="chat-body" class="chat-body">
-                <div class="chat-message bot">Welcome! How can I help you explore this place today?</div>
-            </div>
-            <div class="chat-footer">
-                <input type="text" id="chat-input" placeholder="Ask a question...">
-                <button id="chat-send-btn">
-                    <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
-                </button>
-            </div>
-        </div>
-        <div id="chat-bubble" class="chat-bubble">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg>
-        </div>
-    </div>
-
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // --- Section Toggling Logic ---
@@ -452,31 +433,12 @@
                         .to(marqueeInner, { y: edge === 'top' ? '101%' : '-101%' });
                 });
             });
-
-            // --- CHATBOT LOGIC ---
-            const chatBubble = document.getElementById("chat-bubble"),
-                chatWindow = document.getElementById("chat-window"),
-                chatBody = document.getElementById("chat-body"),
-                chatInput = document.getElementById("chat-input"),
-                chatSendBtn = document.getElementById("chat-send-btn");
-            function addMessage(e, t) {
-                const n = document.createElement("div");
-                n.classList.add("chat-message", t), n.textContent = e, chatBody.appendChild(n), chatBody.scrollTop = chatBody.scrollHeight
-            }
-            function getBotResponse(e) {
-                const t = e.toLowerCase().trim();
-                return t.includes("hello") || t.includes("hi") ? "Hello there! Welcome to this virtual tour. Ask me anything about this location." : t.includes("what is this") || t.includes("about") ? "This is a virtual odyssey through Bharat, showcasing its rich heritage and culture in an immersive way. This specific location is a demonstration area." : t.includes("feature") || t.includes("do") ? "You can look around in 360 degrees, click on hotspots to navigate, and use the menu to explore different locations. You can also ask me for information!" : t.includes("bye") || t.includes("thanks") ? "You're welcome! Enjoy the rest of your tour." : "I'm sorry, I'm still learning. I can currently provide information about this tour's features and purpose. Try asking 'What is this place?'"
-            }
-            function sendMessage() {
-                const e = chatInput.value;
-                "" !== e.trim() && (addMessage(e, "user"), chatInput.value = "", setTimeout(() => {
-                    const e = getBotResponse(e);
-                    addMessage(e, "bot")
-                }, 500))
-            }
-            chatBubble.addEventListener("click", () => { chatWindow.classList.toggle("open") }), chatSendBtn.addEventListener("click", sendMessage), chatInput.addEventListener("keypress", function(e) { "Enter" === e.key && sendMessage() });
         });
     </script>
+
+    <!--Chatbot-->
+    <script src="https://cdn.botpress.cloud/webchat/v3.3/inject.js"></script>
+    <script src="https://files.bpcontent.cloud/2025/09/23/10/20250923102557-RWZC9S19.js" defer></script>
 </body>
 </html>
 
