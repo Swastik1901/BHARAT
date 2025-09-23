@@ -114,6 +114,17 @@
   <button id="more-options-btn" class="more-options-btn">
       More Options ▲ 
   </button>
+  </div>
+  <script>
+
+       const moreOptionsBtn = document.getElementById('more-options-btn');
+       const moreOptionsPanel = document.getElementById('more-options-panel');
+       moreOptionsBtn.addEventListener('click', () => {
+           const isOpen = moreOptionsPanel.classList.toggle('open');
+           moreOptionsBtn.innerHTML = isOpen ? 'More Options &#9660;' : 'More Options &#9650;';
+       });
+
+</script>
 
   <!--Chatbot-->
   <script src="https://cdn.botpress.cloud/webchat/v3.3/inject.js"></script>
