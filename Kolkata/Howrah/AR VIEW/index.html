@@ -87,6 +87,17 @@
 
 <script src="data.js"></script>
 <script src="index.js"></script>
+<script>
+
+       const moreOptionsBtn = document.getElementById('more-options-btn');
+       const moreOptionsPanel = document.getElementById('more-options-panel');
+       moreOptionsBtn.addEventListener('click', () => {
+           const isOpen = moreOptionsPanel.classList.toggle('open');
+           moreOptionsBtn.innerHTML = isOpen ? 'More Options &#9660;' : 'More Options &#9650;';
+       });
+
+</script>
+
 <!--Chatbot-->
 <script src="https://cdn.botpress.cloud/webchat/v3.3/inject.js"></script>
 <script src="https://files.bpcontent.cloud/2025/09/23/10/20250923102557-RWZC9S19.js" defer></script>
