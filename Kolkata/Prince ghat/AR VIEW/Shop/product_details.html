@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details - BHARAT : AN AR ODYSSEY</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #1a0f0f; background-image: radial-gradient(ellipse at center, #4a2a2a, #1a0f0f); color: #D4AF37; overflow-x: hidden; }
+        .title-font { font-family: 'Cinzel', serif; letter-spacing: 0.1em; text-shadow: 0 0 15px rgba(212, 175, 55, 0.5); }
+        .themed-button { display: inline-block; text-align: center; font-family: 'Cinzel', serif; letter-spacing: 0.1em; background-color: #D4AF37; color: #1a0f0f; transition: all 0.3s ease; }
+        .themed-button:hover { background-color: #ffdead; box-shadow: 0 0 20px rgba(212, 175, 55, 0.5); }
+    </style>
+</head>
+<body class="p-4 sm:p-8">
+
+    <nav class="container mx-auto flex justify-between items-center py-4 mb-8 border-b border-solid border-white/10">
+        <a href="shop.html" class="title-font text-xl md:text-2xl">BHARAT: AN AR ODYSSEY</a>
+    </nav>
+
+    <main class="container mx-auto mt-16">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-16 items-center">
+            <div>
+                <img id="product-image" src="" alt="Product Image" class="w-full h-auto object-cover rounded-lg shadow-2xl shadow-black/50 border border-white/10">
+            </div>
+
+            <div class="flex flex-col">
+                <h1 id="product-name" class="title-font text-4xl lg:text-5xl font-bold">Product Name</h1>
+                <p id="product-artisan" class="text-lg text-gray-400 mt-2 mb-4">Artisan Details</p>
+                <p id="product-desc" class="text-gray-300 text-base lg:text-lg leading-relaxed mb-6">Product description will be loaded here.</p>
+                
+                <div class="mt-auto">
+                    <p id="product-price" class="text-4xl font-bold title-font mb-8">₹0</p>
+                    <a href="Address.html" class="themed-button w-full font-bold py-4 rounded-lg text-lg">Proceed to Fill Address</a>
+                    <a href="shop.html" class="block text-center mt-4 text-gray-400 hover:text-white transition-colors">&larr; Back to Shop</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Retrieve the product data from sessionStorage
+            const productDataJSON = sessionStorage.getItem('selectedProduct');
+
+            if (productDataJSON) {
+                const productData = JSON.parse(productDataJSON);
+
+                // Populate the page with the product data
+                document.getElementById('product-image').src = productData.img;
+                document.getElementById('product-image').alt = productData.name;
+                document.getElementById('product-name').textContent = productData.name;
+                document.getElementById('product-artisan').textContent = productData.artisan;
+                document.getElementById('product-desc').textContent = productData.desc;
+                document.getElementById('product-price').textContent = productData.price;
+            } else {
+                // Handle case where no product was selected (e.g., direct navigation)
+                document.querySelector('main').innerHTML = `
+                    <div class="text-center">
+                        <h1 class="title-font text-3xl">No Product Selected</h1>
+                        <p class="mt-4 text-gray-400">Please go back to the shop and select an item.</p>
+                        <a href="shop.html" class="themed-button mt-8 font-bold py-3 px-8 rounded-lg">Back to Shop</a>
+                    </div>
+                `;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artisan's Marketplace - BHARAT : AN AR ODYSSEY</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* Base theme from your other pages */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a0f0f;
+            background-image: radial-gradient(ellipse at center, #4a2a2a, #1a0f0f);
+            color: #D4AF37;
+            overflow-x: hidden;
+        }
+
+        .title-font {
+            font-family: 'Cinzel', serif;
+            letter-spacing: 0.1em;
+            text-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+        }
+        
+        /* --- NEW: Search Bar Styling --- */
+        .search-input {
+            background-color: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            color: #D4AF37;
+            transition: all 0.3s ease;
+        }
+        .search-input:focus {
+            outline: none;
+            border-color: #D4AF37;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+        }
+        .search-input::placeholder {
+            color: rgba(212, 175, 55, 0.5);
+        }
+
+        /* Glass effect for product cards */
+        .product-card {
+            background-color: rgba(26, 15, 15, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 0.75rem;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Filter button styling */
+        .filter-btn {
+            background-color: transparent;
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            color: #D4AF37;
+            transition: all 0.3s ease;
+            font-family: 'Cinzel', serif;
+        }
+
+        .filter-btn:hover {
+            background-color: rgba(212, 175, 55, 0.2);
+        }
+
+        .filter-btn.active {
+            background-color: #D4AF37;
+            color: #1a0f0f;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+        }
+        
+        /* Button style from your login page */
+        .themed-button {
+            display: inline-block; /* Important for <a> tags */
+            text-align: center; /* Important for <a> tags */
+            font-family: 'Cinzel', serif;
+            letter-spacing: 0.1em;
+            background-color: #D4AF37;
+            color: #1a0f0f;
+            transition: all 0.3s ease;
+        }
+        .themed-button:hover {
+            background-color: #ffdead; /* A lighter gold */
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+        }
+        
+        /* For the filtering animation */
+        .hidden-card {
+            transform: scale(0.9);
+            opacity: 0;
+            pointer-events: none;
+            height: 0;
+            margin-bottom: 0;
+            padding: 0;
+            overflow: hidden;
+            border: none;
+        }
+
+    </style>
+</head>
+<body class="p-4 sm:p-8">
+
+    <nav class="container mx-auto flex justify-between items-center py-4 mb-8 border-b border-solid border-white/10">
+        <a href="#" class="title-font text-xl md:text-2xl">BHARAT: AN AR ODYSSEY</a>
+        <div class="flex items-center gap-4 md:gap-6">
+            <div class="relative hidden sm:block">
+                <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                    <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                </span>
+                <input type="text" placeholder="Search crafts..." class="search-input w-40 md:w-64 py-2 pl-10 pr-4 rounded-full">
+            </div>
+            <button class="themed-button flex items-center gap-2 font-bold py-2 px-4 rounded-lg">
+                <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                <span>Login</span>
+            </button>
+        </div>
+    </nav>
+    
+    <main class="container mx-auto">
+        <header class="text-center my-8 md:my-12">
+            <h1 class="title-font text-4xl sm:text-5xl md:text-6xl font-bold">Artisan Marketplace</h1>
+            <p class="text-lg text-gray-400 mt-4 max-w-2xl mx-auto">Discover and purchase authentic handcrafted treasures from the heart of Bharat.</p>
+        </header>
+
+        <nav class="flex flex-wrap justify-center gap-2 md:gap-4 mb-12">
+            <button class="filter-btn active py-2 px-6 rounded-full" data-category="all">All Crafts</button>
+            <button class="filter-btn py-2 px-6 rounded-full" data-category="pottery">Pottery</button>
+            <button class="filter-btn py-2 px-6 rounded-full" data-category="textiles">Textiles</button>
+            <button class="filter-btn py-2 px-6 rounded-full" data-category="woodwork">Woodwork</button>
+            <button class="filter-btn py-2 px-6 rounded-full" data-category="metalcraft">Metal Craft</button>
+        </nav>
+
+        <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+
+            <div class="product-card" 
+                 data-category="pottery"
+                 data-name="Terracotta Vase"
+                 data-artisan="By Artisan: Meera Chauhan"
+                 data-price="₹1,250"
+                 data-img="https://images.unsplash.com/photo-1565538815136-15f79172a2a2?q=80&w=800"
+                 data-desc="A beautifully handcrafted terracotta vase, perfect for adding a rustic charm to your home decor. Made with traditional techniques passed down through generations.">
+                <img src="https://images.unsplash.com/photo-1565538815136-15f79172a2a2?q=80&w=800" alt="Handmade Pottery" class="w-full h-64 object-cover">
+                <div class="p-6">
+                    <p class="text-sm text-gray-400 mb-1">By Artisan: Meera Chauhan</p>
+                    <h3 class="text-2xl font-bold title-font mb-2">Terracotta Vase</h3>
+                    <p class="text-xl font-semibold mb-4">₹1,250</p>
+                    <a href="product_details.html" class="add-to-cart-btn themed-button w-full font-bold py-2 rounded-lg">Add to Cart</a>
+                </div>
+            </div>
+
+            <div class="product-card" 
+                 data-category="textiles"
+                 data-name="Pashmina Shawl"
+                 data-artisan="By Artisan: Rajan Weaves"
+                 data-price="₹4,800"
+                 data-img="https://images.unsplash.com/photo-1617621419350-c419c248b11a?q=80&w=800"
+                 data-desc="Experience the luxurious warmth of an authentic Pashmina shawl from Kashmir. Woven with intricate patterns, this timeless piece is a symbol of elegance.">
+                <img src="https://images.unsplash.com/photo-1617621419350-c419c248b11a?q=80&w=800" alt="Woven Scarf" class="w-full h-64 object-cover">
+                <div class="p-6">
+                    <p class="text-sm text-gray-400 mb-1">By Artisan: Rajan Weaves</p>
+                    <h3 class="text-2xl font-bold title-font mb-2">Pashmina Shawl</h3>
+                    <p class="text-xl font-semibold mb-4">₹4,800</p>
+                    <a href="product_details.html" class="add-to-cart-btn themed-button w-full font-bold py-2 rounded-lg">Add to Cart</a>
+                </div>
+            </div>
+
+            <div class="product-card" 
+                 data-category="woodwork"
+                 data-name="Sandalwood Box"
+                 data-artisan="By Artisan: Sanjay Verma"
+                 data-price="₹2,500"
+                 data-img="https://images.unsplash.com/photo-1595600243293-27209825b340?q=80&w=800"
+                 data-desc="A fragrant and intricately carved sandalwood box. Ideal for storing jewelry and precious keepsakes. The natural aroma of sandalwood is known for its calming properties.">
+                <img src="https://images.unsplash.com/photo-1595600243293-27209825b340?q=80&w=800" alt="Carved Box" class="w-full h-64 object-cover">
+                <div class="p-6">
+                    <p class="text-sm text-gray-400 mb-1">By Artisan: Sanjay Verma</p>
+                    <h3 class="text-2xl font-bold title-font mb-2">Sandalwood Box</h3>
+                    <p class="text-xl font-semibold mb-4">₹2,500</p>
+                    <a href="product_details.html" class="add-to-cart-btn themed-button w-full font-bold py-2 rounded-lg">Add to Cart</a>
+                </div>
+            </div>
+
+            <div class="product-card" 
+                 data-category="metalcraft"
+                 data-name="Brass Ganesha Idol"
+                 data-artisan="By Artisan: Devi Metals"
+                 data-price="₹3,100"
+                 data-img="https://images.unsplash.com/photo-1605380319218-50e5b76572a8?q=80&w=800"
+                 data-desc="This solid brass idol of Lord Ganesha is a masterpiece of metalwork. Believed to bring prosperity and remove obstacles, it's a perfect addition to your home or office.">
+                <img src="https://images.unsplash.com/photo-1605380319218-50e5b76572a8?q=80&w=800" alt="Brass Statue" class="w-full h-64 object-cover">
+                <div class="p-6">
+                    <p class="text-sm text-gray-400 mb-1">By Artisan: Devi Metals</p>
+                    <h3 class="text-2xl font-bold title-font mb-2">Brass Ganesha Idol</h3>
+                    <p class="text-xl font-semibold mb-4">₹3,100</p>
+                    <a href="product_details.html" class="add-to-cart-btn themed-button w-full font-bold py-2 rounded-lg">Add to Cart</a>
+                </div>
+            </div>
+
+        </div>
+    </main>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- PRODUCT FILTER LOGIC ---
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const productCards = document.querySelectorAll('.product-card');
+
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    const category = button.getAttribute('data-category');
+                    productCards.forEach(card => {
+                        if (category === 'all' || card.getAttribute('data-category') === category) {
+                            card.classList.remove('hidden-card');
+                        } else {
+                            card.classList.add('hidden-card');
+                        }
+                    });
+                });
+            });
+
+            // --- NEW: SAVE PRODUCT DETAILS LOGIC ---
+            const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
+            addToCartButtons.forEach(button => {
+                button.addEventListener('click', (event) => {
+                    const card = event.target.closest('.product-card');
+                    const productData = {
+                        name: card.dataset.name,
+                        artisan: card.dataset.artisan,
+                        price: card.dataset.price,
+                        img: card.dataset.img,
+                        desc: card.dataset.desc,
+                    };
+
+                    // Save the product data to sessionStorage
+                    sessionStorage.setItem('selectedProduct', JSON.stringify(productData));
+                });
+            });
+        });
+    </script>
+</body>
+</html>
