@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Explore Cities - BHARAT : AN AR ODYSSEY</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Motion One for animations -->
     <script src="https://cdn.jsdelivr.net/npm/motion@10.17.0/dist/motion.umd.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+    <!-- <script src="auth.js"></script> -->
     <style>
         /* Base styles from the landing page */
         body {
@@ -144,11 +144,15 @@
             backdrop-filter: blur(3px);
             border: 1px solid rgba(212, 175, 55, 0.2);
         }
+        .hidekar {
+            display: flex;
+        }
     </style>
 </head>
-<body class="p-4 sm:p-8">
+<body class="p-4 sm:p-8 relative"> <div class="absolute top-4 right-4 sm:top-8 sm:right-8 z-10 hidekar" >
+        <a href="Login.html" class="bg-red-900 text-[#D4AF37] font-['Cinzel'] font-bold py-2 px-6 rounded-lg hover:bg-red-800 transition-colors duration-300 text-sm">LOGIN</a>
+    </div>
 
-    <!-- Background Shlokas Container -->
     <div class="sloka-background">
         <span class="sloka">ॐ सर्वे भवन्तु सुखिनः</span>
         <span class="sloka">सत्यमेव जयते</span>
@@ -157,27 +161,23 @@
         <span class="sloka">यतो धर्मस्ततो जयः</span>
     </div>
 
-    <!-- Main Content -->
     <main class="container mx-auto text-center">
         <h1 class="main-title text-3xl sm:text-4xl md:text-5xl font-bold mb-4 mt-8">Explore The Cities</h1>
         <p class="max-w-xl mx-auto text-sm md:text-base text-gray-400 mb-12 font-light tracking-wide">
             Discover the soul of Bharat through its cities, each a chapter in a grand, timeless story.
         </p>
         
-        <!-- Search Box -->
         <div class="mb-12">
             <input type="text" id="citySearch" onkeyup="searchCities()" placeholder="Search for a city..." class="search-box w-full max-w-lg mx-auto py-3 px-6 rounded-lg text-lg tracking-wider">
         </div>
 
-        <!-- City Cards Grid -->
         <div id="cityGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10 md:gap-12">
             
-            <!-- City Card Structure -->
-            <a href="Viewer.html">
+            <a href="Heritage.html">
             <figure class="city-card-wrapper city-card-figure h-72">
                 <div class="city-card-inner">
                     <img src="https://s7ap1.scene7.com/is/image/incredibleindia/manikarnika-ghat-city-hero?qlt=82&ts=1727959374496" alt="Varanasi" class="city-card-img" onerror="this.onerror=null;this.src='https://placehold.co/400x300/4a2a2a/D4AF37?text=Image+Not+Found';">
-                    <h3 class="card-content text-xl font-bold">Varanasi</h3>
+                    <h3 class="card-content text-xl font-bold">Kolkata</h3>
                 </div>
             </figure>
             </a>
@@ -223,24 +223,6 @@
                 <div class="city-card-inner">
                     <img src="https://placehold.co/400x300/4a2a2a/D4AF37?text=Kolkata" alt="Kolkata" class="city-card-img" onerror="this.onerror=null;this.src='https://placehold.co/400x300/4a2a2a/D4AF37?text=Image+Not+Found';">
                     <h3 class="card-content text-xl font-bold">Kolkata</h3>
-                </div>
-            </figure>
-            </a>
-
-            <a href="#">
-            <figure class="city-card-wrapper city-card-figure h-72">
-                <div class="city-card-inner">
-                    <img src="https://placehold.co/400x300/4a2a2a/D4AF37?text=Hampi" alt="Hampi" class="city-card-img" onerror="this.onerror=null;this.src='https://placehold.co/400x300/4a2a2a/D4AF37?text=Image+Not+Found';">
-                    <h3 class="card-content text-xl font-bold">Hampi</h3>
-                </div>
-            </figure>
-            </a>
-
-            <a href="#">
-            <figure class="city-card-wrapper city-card-figure h-72">
-                <div class="city-card-inner">
-                    <img src="https://placehold.co/400x300/4a2a2a/D4AF37?text=Rishikesh" alt="Rishikesh" class="city-card-img" onerror="this.onerror=null;this.src='https://placehold.co/400x300/4a2a2a/D4AF37?text=Image+Not+Found';">
-                    <h3 class="card-content text-xl font-bold">Rishikesh</h3>
                 </div>
             </figure>
             </a>
@@ -320,8 +302,4 @@
 
 </body>
 </html>
-
-
-
-
 
