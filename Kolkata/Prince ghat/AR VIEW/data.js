@@ -1,3 +1,4 @@
+
 var APP_DATA = {
   "scenes": [
     {
@@ -173,7 +174,7 @@ var APP_DATA = {
           "yaw": 0.2496181945664535,
           "pitch": -0.34462524135967953,
           "title": "James Prinsep Monument",
-          "text": "<br>"
+          "text": "The Prinsep Monument, constructed in 1843 in Palladian style, was built in memory of James Prinsep, a renowned Anglo-Indian scholar and antiquary. Located along the Hooghly River, it is known for its elegant colonial architecture and serves as a prominent heritage landmark of Kolkata."
         }
       ]
     },
@@ -355,8 +356,8 @@ var APP_DATA = {
         {
           "yaw": 0.025378809100146782,
           "pitch": -0.16232040964817784,
-          "title": "Matsurvashi",
-          "text": "Not much information"
+          "title": "Matsya Urvashi",
+          "text": "The Matsya Urvashi statue at Prinsep Ghat is a beautiful sculptural fountain depicting a mermaid-like figure holding a conch shell. Installed during the British era, it adds to the charm of the riverside promenade and is an iconic ornamental piece near the Prinsep Monument."
         }
       ]
     },
@@ -401,7 +402,7 @@ var APP_DATA = {
           "yaw": -0.28336506745423407,
           "pitch": -0.633662786584754,
           "title": "Gwalior Monument",
-          "text": "Not much information"
+          "text": "The Gwalior Monument, located near Prinsep Ghat in Kolkata, was built in 1847 by the British to commemorate their victory in the Gwalior War. Designed in the Indo-Gothic style, the monument is also called the “Hastings Monument” and stands as a striking colonial-era memorial."
         }
       ]
     },
