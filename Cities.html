@@ -179,11 +179,14 @@
   </head>
   <body class="p-4 sm:p-8 relative">
     <div class="absolute top-4 right-4 sm:top-8 sm:right-8 z-10">
-      <a
-        href="Login.html"
-        class="bg-red-900 text-[#D4AF37] font-['Cinzel'] font-bold py-2 px-6 rounded-lg hover:bg-red-800 transition-colors duration-300 text-sm"
-        >LOGIN</a
-      >
+      <a href="Login.html" id="login-link" class="bg-red-900 text-[#D4AF37] font-['Cinzel'] font-bold py-2 px-6 rounded-lg hover:bg-red-800 transition-colors duration-300 text-sm">
+          Login
+      </a>
+
+      <div id="user-profile" class="hidden items-center space-x-4">
+          <span class="text-white text-lg">Welcome, <span id="user-name" class="font-bold"></span>!</span>
+          <button id="logout-btn" class="bg-red-900 text-[#D4AF37] font-['Cinzel'] font-bold py-2 px-6 rounded-lg hover:bg-red-800 transition-colors duration-300 text-sm">Logout</button>
+      </div>
     </div>
 
     <div class="sloka-background">
@@ -379,6 +382,34 @@
           );
         });
       });
+    </script>
+        <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const token = localStorage.getItem('token');
+            const userName = localStorage.getItem('name');
+
+            const loginLink = document.getElementById('login-link');
+            const userProfile = document.getElementById('user-profile');
+            const userNameSpan = document.getElementById('user-name');
+            const logoutBtn = document.getElementById('logout-btn');
+
+            if (token && userName) {
+                // If the user is logged in:
+                // 1. Hide the login link
+                loginLink.classList.add('hidden');
+                // 2. Show the user profile section
+                userProfile.classList.remove('hidden');
+                userProfile.style.display = 'flex'; // Make it visible
+                userNameSpan.textContent = userName;
+
+                // 3. Make the logout button work
+                logoutBtn.addEventListener('click', () => {
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('name');
+                    window.location.href = 'Cities.html';
+                });
+            }
+        });
     </script>
   </body>
 </html>
