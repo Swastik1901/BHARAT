@@ -117,6 +117,34 @@
         z-index: 1;
       }
 
+      /* --- NEW: Back Button Styling --- */
+      .back-button {
+        position: fixed;
+        top: 2rem;
+        left: 2rem;
+        z-index: 10;
+        width: 48px; /* 3rem */
+        height: 48px; /* 3rem */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background-color: rgba(26, 15, 15, 0.6);
+        border: 1px solid rgba(212, 175, 55, 0.3);
+        color: #d4af37;
+        backdrop-filter: blur(8px);
+        transition: all 0.3s ease;
+      }
+      .back-button:hover {
+        background-color: rgba(212, 175, 55, 0.2);
+        border-color: #d4af37;
+        transform: scale(1.1);
+      }
+      .back-button svg {
+        width: 24px;
+        height: 24px;
+      }
+
       /* Dimmed Glowing Effect */
       .city-card-figure::before {
         content: "";
@@ -178,6 +206,21 @@
     </style>
   </head>
   <body class="p-4 sm:p-8 relative">
+        <a href="../Landing.html" class="back-button" aria-label="Go back">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M15.75 19.5L8.25 12l7.5-7.5"
+        />
+      </svg>
+    </a>
     <div class="absolute top-4 right-4 sm:top-8 sm:right-8 z-10">
       <a href="Login.html" id="login-link" class="bg-red-900 text-[#D4AF37] font-['Cinzel'] font-bold py-2 px-6 rounded-lg hover:bg-red-800 transition-colors duration-300 text-sm">
           Login
