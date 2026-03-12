@@ -1,0 +1,7 @@
+# Never upload these to GitHub or include in ZIP
+.env
+venv/
+__pycache__/
+*.pyc
+*.pyo
+/app/model/
